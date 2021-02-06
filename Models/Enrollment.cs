@@ -12,7 +12,7 @@ namespace xptoUniversity.Models
     public class Enrollment
     {
         public int EnrollmentID { get; set; }
-        public int CourseID { get; set; }
+        public int SubjectID { get; set; }
         public int StudentID { get; set; }
         public Grade? Grade { get; set; }
 

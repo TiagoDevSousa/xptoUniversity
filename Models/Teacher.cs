@@ -6,14 +6,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace xptoUniversity.Models
 {
-    public class Course
+    public class Teacher
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int CourseID { get; set; }
-        public string Title { get; set; }
-        public virtual ICollection<Component> Components { get; set; }
+        public int TeacherID { get; set; }
+        public string Name { get; set; }
+        public DateTime Birthday { get; set; }
+        public int Salary { get; set; }
 
-        
-
+        //public Subject subject { get; set; }
     }
 }
