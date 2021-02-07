@@ -145,6 +145,7 @@
     <Compile Include="Models\Subject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CoursesGroup.cs" />
+    <Compile Include="ViewModels\StudentGroup.cs" />
     <Compile Include="ViewModels\SubjectGroup.cs" />
     <Compile Include="ViewModels\BirthdayGroup.cs" />
   </ItemGroup>
@@ -212,6 +213,7 @@
     <Content Include="Views\Statistics\CourseStats.cshtml" />
     <Content Include="Views\Statistics\BirthdayStats.cshtml" />
     <Content Include="Views\Statistics\SubjectStats.cshtml" />
+    <Content Include="Views\Statistics\StudentStats.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

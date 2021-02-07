@@ -69,31 +69,31 @@ namespace xptoUniversity.Controllers
         public ActionResult SubjectStats()
         {
             IQueryable<SubjectGroup> teacherQ = from s in db.Subjects
-                                                 join t in db.Teachers on s.TeacherID equals t.TeacherID                                                 
-                                                 select new SubjectGroup()
-                                                 {
-                                                     Subject = s.Title,
-                                                     TeachersName = t.Name,
-                                                     TeachersSalary = t.Salary,
-                                                     TeachersBirthday=t.Birthday
-                                                 };
+                                                join t in db.Teachers on s.TeacherID equals t.TeacherID
+                                                select new SubjectGroup()
+                                                {
+                                                    Subject = s.Title,
+                                                    TeachersName = t.Name,
+                                                    TeachersSalary = t.Salary,
+                                                    TeachersBirthday = t.Birthday
+                                                };
 
             var enrollmentQ = (from e in db.Enrollments
-                                                   join st in db.Students on e.StudentID equals st.ID
-                                                   join s in db.Subjects on e.SubjectID equals s.SubjectID
-                                                   select new
-                                                   {
-                                                       Subject = s.Title,
-                                                       StudentName = st.Name
-                                                   }).ToList();
-
-            var GradesQ = (from e in db.Enrollments
+                               join st in db.Students on e.StudentID equals st.ID
                                join s in db.Subjects on e.SubjectID equals s.SubjectID
                                select new
                                {
                                    Subject = s.Title,
-                                   Grade = e.Grade
+                                   StudentName = st.Name
                                }).ToList();
+
+            var GradesQ = (from e in db.Enrollments
+                           join s in db.Subjects on e.SubjectID equals s.SubjectID
+                           select new
+                           {
+                               Subject = s.Title,
+                               Grade = e.Grade
+                           }).ToList();
 
             var teacherList = teacherQ.ToList();
 
@@ -104,6 +104,68 @@ namespace xptoUniversity.Controllers
             }
 
             return View(teacherList);
+        }
+
+        public ActionResult StudentStats()
+        {
+            //IQueryable<StudentGroup> studentQ = from e in db.Enrollments
+            //                                    join st in db.Students on e.StudentID equals st.ID
+            //                                    join s in db.Subjects on e.SubjectID equals s.SubjectID
+            //                                    select new StudentGroup()
+            //                                    {
+            //                                        StudentName = st.Name,
+            //                                        Subject = s.Title,
+            //                                        Grade = e.Grade
+            //                                    };
+
+            //var studentQ = from e in db.Enrollments
+            //                                    join st in db.Students on e.StudentID equals st.ID
+            //                                    join s in db.Subjects on e.SubjectID equals s.SubjectID
+            //                                    group e by s.Title into g
+            //                                    select new 
+            //                                    {
+            //                                        Subject = g.Key,
+            //                                        Studendts = g.Select(m => m.Student),
+            //                                        Grades = g.Select(m => m.Grade)
+            //                                    };
+
+            var studentQ = from e in db.Enrollments
+                           join st in db.Students on e.StudentID equals st.ID
+                           join s in db.Subjects on e.SubjectID equals s.SubjectID
+                           select new
+                           {
+                               StudentName = st.Name,
+                               Subject = s.Title,
+                               Grade = e.Grade
+                           };
+
+            var studentQListGroup = studentQ.GroupBy(x => x.Subject).ToList();
+
+            var res = new List<StudentSubjectGroup>();
+
+            foreach (var item in studentQListGroup)
+            {
+                var studendtsGradesList = new List<StudendtsGrades>();
+
+                foreach (var subItem in item)
+                {
+                    studendtsGradesList.Add(new StudendtsGrades()
+                    {
+                        StudentName = subItem.StudentName,
+                        Grade = subItem.Grade
+                    });
+
+                };
+
+                res.Add(new StudentSubjectGroup()
+                {
+                    Subject = item.Key,
+                    StudendtsGrades = studendtsGradesList
+                });
+
+
+            }
+            return View(res);
         }
 
         protected override void Dispose(bool disposing)
