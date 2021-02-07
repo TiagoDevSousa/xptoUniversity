@@ -18,7 +18,7 @@ namespace xptoUniversity.Controllers
         // GET: Subject
         public ActionResult Index()
         {
-            var subjects = db.Subjects.Include(s => s.Teacher);
+            var subjects = db.Subjects.Include(s => s.Course).Include(s => s.Teacher);
             return View(subjects.ToList());
         }
 
@@ -40,6 +40,7 @@ namespace xptoUniversity.Controllers
         // GET: Subject/Create
         public ActionResult Create()
         {
+            ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Title");
             ViewBag.TeacherID = new SelectList(db.Teachers, "TeacherID", "Name");
             return View();
         }
@@ -49,7 +50,7 @@ namespace xptoUniversity.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SubjectID,Title,TeacherID")] Subject subject)
+        public ActionResult Create([Bind(Include = "SubjectID,Title,TeacherID,CourseID")] Subject subject)
         {
             if (ModelState.IsValid)
             {
@@ -58,6 +59,7 @@ namespace xptoUniversity.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Title", subject.CourseID);
             ViewBag.TeacherID = new SelectList(db.Teachers, "TeacherID", "Name", subject.TeacherID);
             return View(subject);
         }
@@ -74,6 +76,7 @@ namespace xptoUniversity.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Title", subject.CourseID);
             ViewBag.TeacherID = new SelectList(db.Teachers, "TeacherID", "Name", subject.TeacherID);
             return View(subject);
         }
@@ -83,7 +86,7 @@ namespace xptoUniversity.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SubjectID,Title,TeacherID")] Subject subject)
+        public ActionResult Edit([Bind(Include = "SubjectID,Title,TeacherID,CourseID")] Subject subject)
         {
             if (ModelState.IsValid)
             {
@@ -91,6 +94,7 @@ namespace xptoUniversity.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Title", subject.CourseID);
             ViewBag.TeacherID = new SelectList(db.Teachers, "TeacherID", "Name", subject.TeacherID);
             return View(subject);
         }
