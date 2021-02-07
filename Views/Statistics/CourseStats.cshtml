@@ -1,0 +1,42 @@
+﻿@model IEnumerable<xptoUniversity.ViewModels.CoursesGroup>
+
+@{
+    ViewBag.Title = "Course Statistics";
+}
+
+<h2>Course Statistics</h2>
+
+<table>
+    <tr>
+        <th>
+            Course
+        </th>
+        <th>
+            Number of Teachers
+        </th>
+        <th>
+            Number of Students
+        </th>
+        <th>
+            Average of Grades
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course)
+            </td>
+            <td>
+                @item.TeachersCount
+            </td>
+            <td>
+                @item.StudentsCount
+            </td>
+            <td>
+                @item.AvgGrade
+            </td>
+        </tr>
+    }
+</table>

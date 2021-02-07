@@ -11,9 +11,6 @@ namespace xptoUniversity.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int CourseID { get; set; }
         public string Title { get; set; }
-        public virtual ICollection<Component> Components { get; set; }
-
-        
 
     }
 }

@@ -13,9 +13,11 @@ namespace xptoUniversity.Models
         public string Title { get; set; }
 
         public virtual ICollection<Enrollment> Enrollments { get; set; }
-        public virtual ICollection<Component> Components { get; set; }
 
         public int TeacherID { get; set; }
         public Teacher Teacher { get; set; }
+
+        public int CourseID { get; set; }
+        public Course Course { get; set; }
     }
 }
