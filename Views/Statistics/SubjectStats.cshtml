@@ -1,0 +1,58 @@
+﻿@model IEnumerable<xptoUniversity.ViewModels.SubjectGroup>
+
+@{
+    ViewBag.Title = "Subject Statistics";
+}
+
+<h2>Subject Statistics</h2>
+
+<table>
+    <tr>
+        <th>
+            Subjects
+        </th>
+
+        <th>
+            Number of Students
+        </th>
+        <th>
+            Teacher Name
+        </th>
+        <th>
+            Teacher Salary
+        </th>
+        <th>
+            Teacher Birthday
+        </th>
+        <th>
+            Grades
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Subject)
+    </td>
+
+    <td>
+        @item.StudentsCount
+    </td>
+    <td>
+        @item.TeachersName
+    </td>
+    <td>
+        @item.TeachersSalary
+    </td>
+    <td>
+        @item.TeachersBirthday.ToShortDateString()
+    </td>
+    <td>
+        @String.Join("; ", item.Grades)
+    </td>
+
+</tr>
+    }
+</table>

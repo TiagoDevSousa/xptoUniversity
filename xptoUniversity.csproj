@@ -145,6 +145,7 @@
     <Compile Include="Models\Subject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CoursesGroup.cs" />
+    <Compile Include="ViewModels\SubjectGroup.cs" />
     <Compile Include="ViewModels\BirthdayGroup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +211,7 @@
     <Content Include="Views\Enrollment\Index.cshtml" />
     <Content Include="Views\Statistics\CourseStats.cshtml" />
     <Content Include="Views\Statistics\BirthdayStats.cshtml" />
+    <Content Include="Views\Statistics\SubjectStats.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

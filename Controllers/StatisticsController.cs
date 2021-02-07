@@ -66,6 +66,46 @@ namespace xptoUniversity.Controllers
 
         }
 
+        public ActionResult SubjectStats()
+        {
+            IQueryable<SubjectGroup> teacherQ = from s in db.Subjects
+                                                 join t in db.Teachers on s.TeacherID equals t.TeacherID                                                 
+                                                 select new SubjectGroup()
+                                                 {
+                                                     Subject = s.Title,
+                                                     TeachersName = t.Name,
+                                                     TeachersSalary = t.Salary,
+                                                     TeachersBirthday=t.Birthday
+                                                 };
+
+            var enrollmentQ = (from e in db.Enrollments
+                                                   join st in db.Students on e.StudentID equals st.ID
+                                                   join s in db.Subjects on e.SubjectID equals s.SubjectID
+                                                   select new
+                                                   {
+                                                       Subject = s.Title,
+                                                       StudentName = st.Name
+                                                   }).ToList();
+
+            var GradesQ = (from e in db.Enrollments
+                               join s in db.Subjects on e.SubjectID equals s.SubjectID
+                               select new
+                               {
+                                   Subject = s.Title,
+                                   Grade = e.Grade
+                               }).ToList();
+
+            var teacherList = teacherQ.ToList();
+
+            foreach (var item in teacherList)
+            {
+                item.StudentsCount = enrollmentQ.Count(x => x.Subject.Equals(item.Subject));
+                item.Grades = GradesQ.Where(x => x.Subject.Equals(item.Subject)).Select(y => y.Grade).ToList();
+            }
+
+            return View(teacherList);
+        }
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
